@@ -12,7 +12,10 @@ function App() {
 
     useEffect(() => {
         if (window.Cesium && !viewerRef.current) {
-            viewerRef.current = new window.Cesium.Viewer('cesiumContainer', {})
+            viewerRef.current = new window.Cesium.Viewer('cesiumContainer', {
+                // terrainProvider : new window.Cesium.CesiumTerrainProvider(),
+            })
+            window._viewer = viewerRef.current;
         }
     }, [])
 
