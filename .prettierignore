@@ -1,0 +1,11 @@
+**/*.md
+**/*.svg
+**/*.ejs
+**/*.html
+**/*.lock
+
+# Ignore artifacts:
+build
+coverage
+public
+package.json

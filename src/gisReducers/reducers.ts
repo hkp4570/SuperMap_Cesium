@@ -1,15 +1,15 @@
 export interface InitialGisStateType {
     sun: {
-        show: boolean,
+        show: boolean
         glowFactor: number
-    },
+    }
     moon: {
         show: boolean
     }
 }
 
 export interface ActionType {
-    type: string,
+    type: string
     payload: any
 }
 
@@ -20,14 +20,14 @@ export const initialGisState: InitialGisStateType = {
     },
     moon: {
         show: true,
-    }
-};
+    },
+}
 
-export function reducers(state: InitialGisStateType, {type, payload}: ActionType) {
+export function reducers(state: InitialGisStateType, { type, payload }: ActionType) {
     switch (type) {
         case 'sun-show':
-            return {...state, sun: payload};
+            return { ...state, sun: payload }
         default:
-            return state;
+            return state
     }
 }
