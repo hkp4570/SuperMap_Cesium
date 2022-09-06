@@ -10,6 +10,21 @@ export interface InitialGisStateType {
         enabled: boolean
         minimumBrightness: number
         density: number
+    },
+    globe: {
+        showGroundAtmosphere: boolean
+        lightingFadeInDistance: number
+        lightingFadeOutDistance: number
+        atmosphereBrightnessShift: number
+        atmosphereHueShift: number
+        atmosphereSaturationShift: number
+        enableLighting: boolean
+        dynamicAtmosphereLighting: boolean
+        translucency: {
+            enabled: boolean
+            frontFaceAlpha: number
+            backFaceAlpha: number
+        }
     }
 }
 
@@ -30,7 +45,23 @@ export const initialGisState: InitialGisStateType = {
         enabled: true,
         minimumBrightness: 0.03,
         density: 0.0002,
-    }
+    },
+    globe: {
+        showGroundAtmosphere: true,
+        lightingFadeInDistance: 20000000,
+        lightingFadeOutDistance: 10000000,
+        atmosphereBrightnessShift: 0,
+        atmosphereHueShift: 0,
+        atmosphereSaturationShift: 0,
+
+        enableLighting: false,
+        dynamicAtmosphereLighting: true, // 超图中不生效
+        translucency: {
+            enabled: false,
+            frontFaceAlpha: 0.1,
+            backFaceAlpha: 0.1,
+        }
+    },
 }
 
 export function reducers(state: InitialGisStateType, {type, payload}: ActionType) {
@@ -40,9 +71,12 @@ export function reducers(state: InitialGisStateType, {type, payload}: ActionType
         //     return {...state, sun: payload}
         // case 'fog-enabled':
         //     return {...state, fog: payload}
-        // case 'fog-minimumBrightness':
-        //     return {...state, fog: payload}
+        case 'globe-translucency':
+            return {...state, translucency: { ...state.globe.translucency, ...payload }}
         default:
-            return {...state, [keys[0]]: { ...state[keys[0] as keyof typeof initialGisState], [keys[1]]: payload[keys[1]] }}
+            return {
+                ...state,
+                [keys[0]]: {...state[keys[0] as keyof typeof initialGisState], [keys[1]]: payload[keys[1]]}
+            }
     }
 }

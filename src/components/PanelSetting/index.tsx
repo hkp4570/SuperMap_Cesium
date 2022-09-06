@@ -22,7 +22,7 @@ const PanelSetting = (props: IProps) => {
 
     return (
         <div className={styles.panel}>
-            <div>雾设置</div>
+            <div className={styles.title}>雾设置 Fog</div>
             <div>
                 雾：<input
                 type="checkbox"
@@ -31,12 +31,101 @@ const PanelSetting = (props: IProps) => {
             />
             </div>
             <div>
-                最低亮度：<input type="range" min={0} max={1} step={0.01} defaultValue={gisState.fog.minimumBrightness} onChange={e => updateGisData('fog-minimumBrightness', +e.target.value)}/>
+                最低亮度：<input type="range" min={0} max={1} step={0.01}
+                                             defaultValue={gisState.fog.minimumBrightness}
+                                             onChange={e => updateGisData('fog-minimumBrightness', +e.target.value)}/>
                 {gisState.fog.minimumBrightness}
             </div>
             <div>
-                密度：<input type="number" step={0.0001} value={gisState.fog.density} onChange={e => updateGisData('fog-density', +e.target.value)}/>
+                密度：<input type="number" step={0.0001} value={gisState.fog.density}
+                                 onChange={e => updateGisData('fog-density', +e.target.value)}/>
             </div>
+            <div className={styles.title}>地球</div>
+            <div>
+                大气层：
+                <input
+                    type="checkbox"
+                    checked={gisState.globe.showGroundAtmosphere}
+                    onChange={e => updateGisData('globe-showGroundAtmosphere', e.target.checked)}
+                />
+            </div>
+            <div>
+                lighting Fade In Distance：
+                <input
+                    type="number"
+                    min={0}
+                    step={1000}
+                    value={gisState.globe.lightingFadeInDistance}
+                    onChange={e => updateGisData('globe-lightingFadeInDistance', +e.target.value)}
+                />
+            </div>
+            <div>
+                lighting Fade Out Distance：
+                <input
+                    type="number"
+                    min={0}
+                    step={1000}
+                    value={gisState.globe.lightingFadeOutDistance}
+                    onChange={e => updateGisData('globe-lightingFadeOutDistance', +e.target.value)}
+                />
+            </div>
+            <div>
+                亮度：
+                <input
+                    type="number"
+                    min={-1}
+                    max={1}
+                    step={0.1}
+                    value={gisState.globe.atmosphereBrightnessShift}
+                    onChange={e => updateGisData('globe-atmosphereBrightnessShift', +e.target.value)}
+                />
+            </div>
+            <div>
+                色调：
+                <input
+                    type="number"
+                    min={-1}
+                    max={1}
+                    step={0.1}
+                    value={gisState.globe.atmosphereHueShift}
+                    onChange={e => updateGisData('globe-atmosphereHueShift', +e.target.value)}
+                />
+            </div>
+            <div>
+                饱和度：
+                <input
+                    type="number"
+                    min={-1}
+                    max={1}
+                    step={0.1}
+                    value={gisState.globe.atmosphereSaturationShift}
+                    onChange={e => updateGisData('globe-atmosphereSaturationShift', +e.target.value)}
+                />
+            </div>
+            <div>
+                地球照明：
+                <input
+                    type="checkbox"
+                    checked={gisState.globe.enableLighting}
+                    onChange={e => updateGisData('globe-enableLighting', e.target.checked)}
+                />
+            </div>
+            <div>
+                dynamicAtmosphereLighting：
+                <input
+                    type="checkbox"
+                    checked={gisState.globe.dynamicAtmosphereLighting}
+                    onChange={e => updateGisData('globe-dynamicAtmosphereLighting', e.target.checked)}
+                />
+            </div>
+            {/*<div>*/}
+            {/*    地球透明度：*/}
+            {/*    <input*/}
+            {/*        type="checkbox"*/}
+            {/*        checked={gisState.globe.translucency.enabled}*/}
+            {/*        onChange={e => gisDispatch({type: 'globe-translucency', payload:{enabled: e.target.checked}})}*/}
+            {/*    />*/}
+            {/*</div>*/}
         </div>
     )
 }
