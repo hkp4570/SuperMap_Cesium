@@ -3,7 +3,7 @@ import {InitialGisStateType} from '../gisReducers/reducers'
 
 export const useListenGis = (viewer: any, state: InitialGisStateType) => {
     console.log(state, 'state')
-    const {fog, globe} = state
+    const {fog, globe, skyAtmosphere} = state
 
     useEffect(() => {
         if (viewer) {
@@ -67,7 +67,25 @@ export const useListenGis = (viewer: any, state: InitialGisStateType) => {
 
     useEffect(() => {
         if (viewer) {
-            viewer.scene.globe.dynamicAtmosphereLighting = globe.dynamicAtmosphereLighting;
+            viewer.scene.skyAtmosphere.show = skyAtmosphere.show;
         }
-    }, [viewer, globe.dynamicAtmosphereLighting])
+    }, [viewer, skyAtmosphere.show])
+
+    useEffect(() => {
+        if (viewer) {
+            viewer.scene.skyAtmosphere.brightnessShift = skyAtmosphere.brightnessShift;
+        }
+    }, [viewer, skyAtmosphere.brightnessShift])
+
+    useEffect(() => {
+        if (viewer) {
+            viewer.scene.skyAtmosphere.hueShift = skyAtmosphere.hueShift;
+        }
+    }, [viewer, skyAtmosphere.hueShift])
+
+    useEffect(() => {
+        if (viewer) {
+            viewer.scene.skyAtmosphere.saturationShift = skyAtmosphere.saturationShift;
+        }
+    }, [viewer, skyAtmosphere.saturationShift])
 }

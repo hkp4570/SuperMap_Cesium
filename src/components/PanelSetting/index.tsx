@@ -32,17 +32,17 @@ const PanelSetting = (props: IProps) => {
             </div>
             <div>
                 最低亮度：<input type="range" min={0} max={1} step={0.01}
-                                             defaultValue={gisState.fog.minimumBrightness}
-                                             onChange={e => updateGisData('fog-minimumBrightness', +e.target.value)}/>
+                            defaultValue={gisState.fog.minimumBrightness}
+                            onChange={e => updateGisData('fog-minimumBrightness', +e.target.value)}/>
                 {gisState.fog.minimumBrightness}
             </div>
             <div>
                 密度：<input type="number" step={0.0001} value={gisState.fog.density}
-                                 onChange={e => updateGisData('fog-density', +e.target.value)}/>
+                          onChange={e => updateGisData('fog-density', +e.target.value)}/>
             </div>
             <div className={styles.title}>地球</div>
             <div>
-                大气层：
+                地面大气层：
                 <input
                     type="checkbox"
                     checked={gisState.globe.showGroundAtmosphere}
@@ -118,14 +118,48 @@ const PanelSetting = (props: IProps) => {
                     onChange={e => updateGisData('globe-dynamicAtmosphereLighting', e.target.checked)}
                 />
             </div>
-            {/*<div>*/}
-            {/*    地球透明度：*/}
-            {/*    <input*/}
-            {/*        type="checkbox"*/}
-            {/*        checked={gisState.globe.translucency.enabled}*/}
-            {/*        onChange={e => gisDispatch({type: 'globe-translucency', payload:{enabled: e.target.checked}})}*/}
-            {/*    />*/}
-            {/*</div>*/}
+            <div className={styles.title}>
+                天空大气层：
+                <input
+                    type="checkbox"
+                    checked={gisState.skyAtmosphere.show}
+                    onChange={e => updateGisData('skyAtmosphere-show', e.target.checked)}
+                />
+            </div>
+            <div>
+                亮度：
+                <input
+                    type="number"
+                    min={-1}
+                    max={1}
+                    step={0.1}
+                    value={gisState.skyAtmosphere.brightnessShift}
+                    onChange={e => updateGisData('skyAtmosphere-brightnessShift', +e.target.value)}
+                />
+            </div>
+            <div>
+                色调：
+                <input
+                    type="number"
+                    min={-1}
+                    max={1}
+                    step={0.1}
+                    value={gisState.skyAtmosphere.hueShift}
+                    onChange={e => updateGisData('skyAtmosphere-hueShift', +e.target.value)}
+                />
+            </div>
+            <div>
+                饱和度：
+                <input
+                    type="number"
+                    min={-1}
+                    max={1}
+                    step={0.1}
+                    value={gisState.skyAtmosphere.saturationShift}
+                    onChange={e => updateGisData('skyAtmosphere-saturationShift', +e.target.value)}
+                />
+            </div>
+
         </div>
     )
 }

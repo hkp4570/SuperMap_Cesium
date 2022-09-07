@@ -20,11 +20,12 @@ export interface InitialGisStateType {
         atmosphereSaturationShift: number
         enableLighting: boolean
         dynamicAtmosphereLighting: boolean
-        translucency: {
-            enabled: boolean
-            frontFaceAlpha: number
-            backFaceAlpha: number
-        }
+    },
+    skyAtmosphere: {
+        show: boolean
+        brightnessShift: number
+        hueShift: number
+        saturationShift: number
     }
 }
 
@@ -53,15 +54,15 @@ export const initialGisState: InitialGisStateType = {
         atmosphereBrightnessShift: 0,
         atmosphereHueShift: 0,
         atmosphereSaturationShift: 0,
-
         enableLighting: false,
         dynamicAtmosphereLighting: true, // 超图中不生效
-        translucency: {
-            enabled: false,
-            frontFaceAlpha: 0.1,
-            backFaceAlpha: 0.1,
-        }
     },
+    skyAtmosphere: {
+        show: true,
+        brightnessShift: 0,
+        hueShift: 0,
+        saturationShift: 0,
+    }
 }
 
 export function reducers(state: InitialGisStateType, {type, payload}: ActionType) {
@@ -71,8 +72,8 @@ export function reducers(state: InitialGisStateType, {type, payload}: ActionType
         //     return {...state, sun: payload}
         // case 'fog-enabled':
         //     return {...state, fog: payload}
-        case 'globe-translucency':
-            return {...state, translucency: { ...state.globe.translucency, ...payload }}
+        // case 'globe-translucency':
+        //     return {...state, translucency: { ...state.globe.translucency, ...payload }}
         default:
             return {
                 ...state,
