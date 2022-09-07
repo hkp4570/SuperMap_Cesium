@@ -1,9 +1,11 @@
 import {useEffect} from 'react'
 import {InitialGisStateType} from '../gisReducers/reducers'
 
+let cloudBox: any;
+
 export const useListenGis = (viewer: any, state: InitialGisStateType) => {
     console.log(state, 'state')
-    const {fog, globe, skyAtmosphere} = state
+    const {fog, cloud, globe, skyAtmosphere, baseMap} = state
 
     useEffect(() => {
         if (viewer) {
@@ -22,6 +24,21 @@ export const useListenGis = (viewer: any, state: InitialGisStateType) => {
             viewer.scene.fog.density = fog.density;
         }
     }, [viewer, fog.density])
+
+    useEffect(() => {
+        if (viewer) {
+            if (cloud.show && !cloudBox) {
+                cloudBox = new window.Cesium.CloudBox({
+                    url: 'http://support.supermap.com.cn:8090/webgl/examples/webgl/images/clouds-supermap-sm.png'
+                })
+                viewer.scene.primitives.add(cloudBox);
+            }
+            if (!cloud.show && cloudBox) {
+                cloudBox && viewer.scene.primitives.remove(cloudBox);
+                cloudBox = null;
+            }
+        }
+    }, [viewer, cloud.show])
 
     useEffect(() => {
         if (viewer) {
@@ -88,4 +105,41 @@ export const useListenGis = (viewer: any, state: InitialGisStateType) => {
             viewer.scene.skyAtmosphere.saturationShift = skyAtmosphere.saturationShift;
         }
     }, [viewer, skyAtmosphere.saturationShift])
+
+    useEffect(() => {
+        if (viewer) {
+            const layers = viewer.scene.imageryLayers;
+            const oldBaseMap = layers.get(1);
+            if (oldBaseMap) {
+                layers.remove(oldBaseMap);
+            }
+            switch (baseMap.type) {
+                case "baidu":
+                    layers.addImageryProvider(
+                        new window.Cesium.BaiduImageryProvider({
+                            style: 'vec',
+                            crs: 'WGS84',
+                        }),
+                    );
+                    break;
+                case "gaode":
+                    layers.addImageryProvider(
+                        new window.Cesium.AmapImageryProvider({
+                            style: 'img',
+                            crs: 'WGS84',
+                        }),
+                    );
+                    break;
+                case "tengxun":
+                    layers.addImageryProvider(
+                        new window.Cesium.TencentImageryProvider({
+                            style: 1,
+                        })
+                    );
+                    break;
+                default:
+                    break;
+            }
+        }
+    }, [viewer, baseMap.type])
 }

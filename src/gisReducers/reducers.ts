@@ -11,6 +11,9 @@ export interface InitialGisStateType {
         minimumBrightness: number
         density: number
     },
+    cloud: {
+        show: boolean
+    },
     globe: {
         showGroundAtmosphere: boolean
         lightingFadeInDistance: number
@@ -26,6 +29,9 @@ export interface InitialGisStateType {
         brightnessShift: number
         hueShift: number
         saturationShift: number
+    },
+    baseMap: {
+        type: 'baidu' | 'tengxun' | 'gaode' | null
     }
 }
 
@@ -47,6 +53,9 @@ export const initialGisState: InitialGisStateType = {
         minimumBrightness: 0.03,
         density: 0.0002,
     },
+    cloud: {
+        show: false
+    },
     globe: {
         showGroundAtmosphere: true,
         lightingFadeInDistance: 20000000,
@@ -62,6 +71,9 @@ export const initialGisState: InitialGisStateType = {
         brightnessShift: 0,
         hueShift: 0,
         saturationShift: 0,
+    },
+    baseMap: {
+        type: null
     }
 }
 

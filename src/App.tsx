@@ -16,6 +16,19 @@ function App() {
                 // terrainProvider : new window.Cesium.CesiumTerrainProvider(),
             })
             window._viewer = viewerRef.current;
+
+            // 超图设置不生效
+            // const layers = viewerRef.current.scene.imageryLayers;
+            // const baseLayer = layers.get(0);
+            // baseLayer.colorToAlpha = new window.Cesium.Color(0.0, 0.016, 0.059);
+            // baseLayer.colorToAlphaThreshold = 0.2;
+            //
+            // const singleTileLayer = layers.addImageryProvider(new window.Cesium.SingleTileImageryProvider({
+            //     url: '/assets/earthbump1k.jpg',
+            //     rectangle: window.Cesium.Rectangle.fromDegrees(-180.0, -90.0, 180.0, 90.0),
+            // }))
+            // singleTileLayer.colorToAlpha = new window.Cesium.Color(0.0,0.0,0.0,1.0);
+            // singleTileLayer.colorToAlphaThreshold = 0.1;
         }
     }, [])
 
