@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>绘制线</title>
+		<script src="../public/Cesium/Cesium.js"></script>
+		<link rel="stylesheet" href="../public/Cesium/Widgets/widgets.css" />
+		<style>
+			#drawBtn {
+				position: absolute;
+				left: 0;
+				top: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="cesiumContainer"></div>
+		<button id="drawBtn">绘制线</button>
+		<script>
+			let handler;
+			const viewer = new Cesium.Viewer('cesiumContainer', {});
+			const drawBtn = document.getElementById('drawBtn');
+			drawBtn.onclick = function () {
+				if (handler) {
+					handler.deactivate();
+					handler.clear();
+				}
+				drawHandler(1);
+			};
+
+			function drawHandler(chooseDrawMode) {
+				handler = new Cesium.DrawHandler(viewer, chooseDrawMode, 1);
+				handler.activeEvt.addEventListener((isActive) => {
+					if (isActive) {
+						viewer.enableCursorStyle = false;
+						viewer._element.style.cursor = '';
+					} else {
+						viewer.enableCursorStyle = true;
+					}
+				});
+
+				handler.drawEvt.addEventListener((result) => {
+					console.log(result, '绘制完成');
+				});
+				handler.activate();
+			}
+		</script>
+	</body>
+</html>
