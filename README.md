@@ -1,5 +1,3 @@
+public 文件夹存放 cesium 文件
 
-public 文件夹存放cesium文件
-
-[earth](http://www.supermapol.com/earth/)
-[文档](http://support.supermap.com.cn:8090/webgl/web/apis/3dwebgl.html)
+1.[比例尺、层级](src/scale.html)
