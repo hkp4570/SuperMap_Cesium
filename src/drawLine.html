@@ -8,7 +8,7 @@
 		<script src="../public/Cesium/Cesium.js"></script>
 		<link rel="stylesheet" href="../public/Cesium/Widgets/widgets.css" />
 		<style>
-			#drawBtn {
+			#panel {
 				position: absolute;
 				left: 0;
 				top: 0;
@@ -17,11 +17,50 @@
 	</head>
 	<body>
 		<div id="cesiumContainer"></div>
-		<button id="drawBtn">绘制线</button>
+		<div id="panel">
+			<select name="" id="clampSelect">
+				<option value="Ground" selected>贴地</option>
+				<option value="Space">贴空间</option>
+				<!-- <option value="S3mModel">贴对象</option> -->
+			</select>
+			<button id="drawBtn">绘制线</button>
+		</div>
+
 		<script>
 			let handler;
-			const viewer = new Cesium.Viewer('cesiumContainer', {});
+			let clampMode = 'Ground';
+			const viewer = new Cesium.Viewer('cesiumContainer', {
+				terrainProvider: new Cesium.CesiumTerrainProvider({
+					url: 'http://www.supermapol.com/realspace/services/3D-dixingyingxiang/rest/realspace/datas/DatasetDEM',
+					isSct: true,
+					invisibility: true,
+				}),
+			});
+			viewer.scene.lightSource.ambientLightColor = new Cesium.Color(
+				0.65,
+				0.65,
+				0.65,
+				1
+			);
+			viewer.scene.fog.enabled = false;
+			viewer.scene.skyAtmosphere.show = false;
+			viewer.scene.camera.setView({
+				destination: new Cesium.Cartesian3(
+					-1206939.1925299785,
+					5337998.241228442,
+					3286279.2424502545
+				),
+				orientation: {
+					heading: 1.4059101895600987,
+					pitch: -0.20917672793046682,
+					roll: 2.708944180085382e-13,
+				},
+			});
 			const drawBtn = document.getElementById('drawBtn');
+			const clampSelect = document.getElementById('clampSelect');
+			clampSelect.onchange = function (e) {
+				clampMode = e.target.value;
+			};
 			drawBtn.onclick = function () {
 				if (handler) {
 					handler.deactivate();
@@ -31,7 +70,8 @@
 			};
 
 			function drawHandler(chooseDrawMode) {
-				handler = new Cesium.DrawHandler(viewer, chooseDrawMode, 1);
+				const _clampMode = Cesium.ClampMode[clampMode];
+				handler = new Cesium.DrawHandler(viewer, chooseDrawMode, _clampMode);
 				handler.activeEvt.addEventListener((isActive) => {
 					if (isActive) {
 						viewer.enableCursorStyle = false;
