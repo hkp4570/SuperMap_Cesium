@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>特效线</title>
+		<script src="../public/Cesium/Cesium.js"></script>
+		<link rel="stylesheet" href="../public/Cesium/Widgets/widgets.css" />
+	</head>
+	<body>
+		<div id="cesiumContainer"></div>
+		<script>
+			const viewer = new Cesium.Viewer('cesiumContainer', {});
+			window._viewer = viewer;
+			// const glowingLine = viewer.entities.add({
+			// 	name: '表面发光线',
+			// 	polyline: {
+			// 		positions: Cesium.Cartesian3.fromDegreesArray([-75, 37, -125, 37]),
+			// 		width: 5,
+			// 		// followSurface: true,
+			// 		material: new Cesium.PolylineGlowMaterialProperty({
+			// 			glowPower: 0.2,
+			// 			color: Cesium.Color.BLUE,
+			// 		}),
+			// 	},
+			// });
+			// const redLine = viewer.entities.add({
+			// 	name: '普通线',
+			// 	polyline: {
+			// 		positions: Cesium.Cartesian3.fromDegreesArray([-75, 35, -125, 35]),
+			// 		width: 5,
+			// 		material: Cesium.Color.RED,
+			// 	},
+			// });
+
+			// const orangeOutlined = viewer.entities.add({
+			// 	name: '带边框线',
+			// 	polyline: {
+			// 		positions: Cesium.Cartesian3.fromDegreesArrayHeights([
+			// 			-75, 39, 250000, -125, 39, 250000,
+			// 		]),
+			// 		width: 10,
+			// 		material: new Cesium.PolylineOutlineMaterialProperty({
+			// 			color: Cesium.Color.ORANGE,
+			// 			outlineWidth: 2,
+			// 			outlineColor: Cesium.Color.BLACK,
+			// 		}),
+			// 	},
+			// });
+			// const purpleArrow = viewer.entities.add({
+			// 	name: '箭头线',
+			// 	polyline: {
+			// 		positions: Cesium.Cartesian3.fromDegreesArrayHeights([
+			// 			-75, 43, 500000, -125, 43, 500000,
+			// 		]),
+			// 		width: 10,
+			// 		followSurface: false,
+			// 		material: new Cesium.PolylineArrowMaterialProperty(
+			// 			Cesium.Color.PURPLE
+			// 		),
+			// 	},
+			// });
+			// const dashedLine = viewer.entities.add({
+			// 	name: '虚线',
+			// 	polyline: {
+			// 		positions: Cesium.Cartesian3.fromDegreesArrayHeights([
+			// 			-75, 45, 500000, -125, 45, 500000,
+			// 		]),
+			// 		width: 4,
+			// 		material: new Cesium.PolylineDashMaterialProperty({
+			// 			color: Cesium.Color.CYAN,
+			// 		}),
+			// 	},
+			// });
+			// const postion = [0, 45, 125, 45];
+			// const dynamicLine = viewer.entities.add({
+			// 	name: '动态线  弧度',
+			// 	polyline: {
+			// 		positions: Cesium.Cartesian3.fromDegreesArray(postion),
+			// 		width: 10,
+			// 		hMax: 500000,
+			// 		material: new Cesium.PolylineDynamicMaterialProperty({
+			// 			color: Cesium.Color.RED,
+			// 			outlineWidth: 0,
+			// 			outlineColor: Cesium.Color.BLACK,
+			// 		}),
+			// 	},
+			// });
+
+			// 轮廓线宽度和颜色不生效
+			// const trailLine = viewer.entities.add({
+			// 	name: '尾迹线',
+			// 	polyline: {
+			// 		positions: Cesium.Cartesian3.fromDegreesArray([0, 45, 125, 45]),
+			// 		width: 10,
+			// 		material: new Cesium.PolylineTrailMaterialProperty({
+			// 			color: Cesium.Color.RED,
+			// 			outlineColor: Cesium.Color.BLACK,
+			// 			outlineWidth: 5,
+			// 			trailLength: 0.3,
+			// 			period: 1000,
+			// 			constantSpeed: 6000000,
+			// 		}),
+			// 	},
+			// });
+
+			// const primitiveColor = new Cesium.Primitive({
+			// 	geometryInstances: new Cesium.GeometryInstance({
+			// 		geometry: new Cesium.PolylineGeometry({
+			// 			positions: Cesium.Cartesian3.fromDegreesArray([
+			// 				112.0, 45.0, 36.0, 96.0,
+			// 			]),
+			// 			width: 10.0,
+			// 			vertexFormat: Cesium.PolylineColorAppearance.VERTEX_FORMAT,
+			// 		}),
+			// 		attributes: {
+			// 			color: Cesium.ColorGeometryInstanceAttribute.fromColor(
+			// 				new Cesium.Color(1.0, 1.0, 1.0, 1.0)
+			// 			),
+			// 		},
+			// 	}),
+			// 	appearance: new Cesium.PolylineColorAppearance({
+			// 		translucent: false,
+			// 	}),
+			// });
+
+			// const primitiveMaterial = new Cesium.Primitive({
+			// 	geometryInstances: new Cesium.GeometryInstance({
+			// 		geometry: new Cesium.PolylineGeometry({
+			// 			positions: Cesium.Cartesian3.fromDegreesArray([0.0, 0.0, 5.0, 0.0]),
+			// 			width: 10.0,
+			// 			vertexFormat: Cesium.PolylineMaterialAppearance.VERTEX_FORMAT,
+			// 		}),
+			// 	}),
+			// 	appearance: new Cesium.PolylineMaterialAppearance({
+			// 		material: Cesium.Material.fromType('Color'),
+			// 	}),
+			// });
+			// viewer.scene.primitives.add(primitiveColor);
+			// viewer.scene.primitives.add(primitiveMaterial);
+
+			// polylineVolume
+			// https://sandcastle.cesium.com/index.html?src=Polyline%2520Volume.html
+		</script>
+	</body>
+</html>
