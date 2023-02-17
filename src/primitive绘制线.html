@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>primitive</title>
+		<script src="../public/Cesium/Cesium.js"></script>
+		<link rel="stylesheet" href="../public/Cesium/Widgets/widgets.css" />
+		<style>
+			#panel {
+				width: 369px;
+				height: 369px;
+				position: absolute;
+				left: 0;
+				top: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="cesiumContainer"></div>
+		<div id="panel">
+			<button id="entityLineBtn">entity生成线</button><br />
+			<button id="primitiveLineBtn">primitive生成线</button><br />
+			<button id="editEntityLineBtn">修改entity线颜色</button>
+			<button id="editPrimitiveLineBtn">修改primitive线颜色</button>
+		</div>
+		<script>
+			const viewer = new Cesium.Viewer('cesiumContainer', {});
+			window.viewer = viewer;
+			const scene = viewer.scene;
+			let primitive;
+			const entityLineBtn = document.getElementById('entityLineBtn');
+			const primitiveLineBtn = document.getElementById('primitiveLineBtn');
+			const editEntityLineBtn = document.getElementById('editEntityLineBtn');
+			const editPrimitiveLineBtn = document.getElementById(
+				'editPrimitiveLineBtn'
+			);
+			editEntityLineBtn.onclick = function () {
+				const entities = viewer.entities._entities._array;
+				setInterval(() => {
+					entities.forEach((item) => {
+						item.polyline.material.color = Cesium.Color.fromRandom({
+							alpha: 1.0,
+						});
+					});
+				}, 2000);
+			};
+			editPrimitiveLineBtn.onclick = function () {
+				if (primitive) {
+					setInterval(() => {
+						primitive.appearance.material.uniforms.color =
+							Cesium.Color.fromRandom({
+								alpha: 1.0,
+							});
+					}, 2000);
+				}
+			};
+			entityLineBtn.onclick = function () {
+				if (primitive) {
+					primitive.destroy();
+				}
+				for (let i = 0; i < 400; i++) {
+					const postion = [
+						random(-180, 180),
+						random(-90, 90),
+						random(-180, 180),
+						random(-90, 90),
+					];
+					viewer.entities.add({
+						name: '动态线  弧度',
+						polyline: {
+							positions: Cesium.Cartesian3.fromDegreesArray(postion),
+							width: 10,
+							hMax: 500000,
+							material: new Cesium.PolylineOutlineMaterialProperty({
+								color: Cesium.Color.RED,
+								outlineWidth: 0,
+								outlineColor: Cesium.Color.BLACK,
+							}),
+						},
+					});
+				}
+			};
+			primitiveLineBtn.onclick = function () {
+				const entities = viewer.entities._entities._array;
+				entities.forEach(() => {
+					viewer.entities.removeAll();
+				});
+				const polylines = [];
+				for (let i = 0; i < 400; i++) {
+					const firstLon = random(-180, 180);
+					const secondLon = random(-180, 180);
+					const firstLat = random(-90, 90);
+					const secondLat = random(-90, 90);
+					const polyline = new Cesium.GeometryInstance({
+						geometry: new Cesium.PolylineGeometry({
+							positions: Cesium.Cartesian3.fromDegreesArray([
+								firstLon,
+								firstLat,
+								secondLon,
+								secondLat,
+							]),
+							width: 10.0,
+						}),
+						// attributes: {
+						// 	color: Cesium.ColorGeometryInstanceAttribute.fromColor(
+						// 		new Cesium.Color(1.0, 1.0, 1.0, 1.0)
+						// 	),
+						// },
+						id: 'polyline',
+					});
+					polylines.push(polyline);
+				}
+				// PolyLineOutline  PolylineDynamic
+				primitive = scene.primitives.add(
+					new Cesium.Primitive({
+						geometryInstances: polylines,
+						appearance: new Cesium.PolylineMaterialAppearance({
+							material: Cesium.Material.fromType('PolyLineOutline', {
+								color: new Cesium.Color(1.0, 1.0, 1.0, 1.0),
+								outlineWidth: 5,
+							}),
+						}),
+					})
+				);
+			};
+			console.log(primitive);
+			// const instance = new Cesium.GeometryInstance({
+			// 	geometry: new Cesium.RectangleGeometry({
+			// 		rectangle: Cesium.Rectangle.fromDegrees(-100.0, 20.0, -90.0, 30.0),
+			// 		vertexFormat: Cesium.EllipsoidSurfaceAppearance.VERTEX_FORMAT,
+			// 	}),
+			// });
+
+			// scene.primitives.add(
+			// 	new Cesium.Primitive({
+			// 		geometryInstances: instance,
+			// 		appearance: new Cesium.EllipsoidSurfaceAppearance({
+			// 			material: Cesium.Material.fromType('Stripe'),
+			// 		}),
+			// 	})
+			// );
+
+			// 修改属性
+			// const circleInstance = new Cesium.GeometryInstance({
+			// 	geometry: new Cesium.CircleGeometry({
+			// 		center: Cesium.Cartesian3.fromDegrees(-95.0, 43.0),
+			// 		radius: 250000.0,
+			// 		vertexFormat: Cesium.PerInstanceColorAppearance.VERTEX_FORMAT,
+			// 	}),
+			// 	attributes: {
+			// 		color: Cesium.ColorGeometryInstanceAttribute.fromColor(
+			// 			new Cesium.Color(1.0, 0.0, 0.0, 0.5)
+			// 		),
+			// 	},
+			// 	id: 'circle',
+			// });
+			// const primitive = new Cesium.Primitive({
+			// 	geometryInstances: circleInstance,
+			// 	appearance: new Cesium.PerInstanceColorAppearance({
+			// 		translucent: false,
+			// 		closed: true,
+			// 	}),
+			// });
+			// scene.primitives.add(primitive);
+
+			// setInterval(function () {
+			// 	var attributes = primitive.getGeometryInstanceAttributes('circle');
+			// 	attributes.color = Cesium.ColorGeometryInstanceAttribute.toValue(
+			// 		Cesium.Color.fromRandom({ alpha: 1.0 })
+			// 	);
+			// }, 2000);
+
+			// const polyline = new Cesium.Primitive({
+			// 	geometryInstances: new Cesium.GeometryInstance({
+			// 		geometry: new Cesium.PolylineGeometry({
+			// 			positions: Cesium.Cartesian3.fromDegreesArray([
+			// 				112.0, 45.0, 36.0, 96.0,
+			// 			]),
+			// 			width: 10.0,
+			// 			// vertexFormat: Cesium.PolylineColorAppearance.VERTEX_FORMAT,
+			// 		}),
+			// 		attributes: {
+			// 			color: Cesium.ColorGeometryInstanceAttribute.fromColor(
+			// 				new Cesium.Color(1.0, 1.0, 1.0, 1.0)
+			// 			),
+			// 		},
+			// 	}),
+			// 	appearance: new Cesium.PolylineMaterialAppearance({
+			// 		// translucent: false,
+			// 		// 虚线
+			// 		// material: Cesium.Material.fromType(Cesium.Material.PolylineDashType, {
+			// 		// 	color: Cesium.Color.CYAN, //线条颜色
+			// 		// 	gapColor: Cesium.Color.TRANSPARENT, //间隔颜色
+			// 		// 	dashLength: 20, //短划线长度
+			// 		// }),
+			// 		// 发光线
+			// 		// material: Cesium.Material.fromType('PolylineGlow', {
+			// 		// 	outlineWidth: 5.0, //外围线宽度
+			// 		// 	glowPower: 0.2, //荧光效果，线周边发亮
+			// 		// 	taperPower: 0.2, //控制一头线粗 一头线细，为1时线的两头粗细一样
+			// 		// 	color: new Cesium.Color(1.0, 0.5, 0.0, 1.0), // 颜色
+			// 		// }),
+			// 		// 边框线
+			// 		material: Cesium.Material.fromType('PolylineOutline', {
+			// 			outlineWidth: 5,
+			// 		}),
+			// 	}),
+			// });
+
+			function random(min, max) {
+				return Math.random() * (max - min) + min;
+			}
+			// Cesium.Color.fromRandom({alpha : 1.0})
+			// setInterval(function () {
+			// 	primitive.appearance.material.uniforms.color = Cesium.Color.fromRandom({
+			// 		alpha: 1.0,
+			// 	});
+			// }, 2000);
+		</script>
+	</body>
+</html>
