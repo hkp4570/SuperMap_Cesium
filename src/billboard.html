@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>billboard</title>
+		<script src="../public/Cesium/Cesium.js"></script>
+		<link rel="stylesheet" href="../public/Cesium/Widgets/widgets.css" />
+		<!-- <script src="https://cesium.com/downloads/cesiumjs/releases/1.102/Build/Cesium/Cesium.js"></script>
+		<link
+			href="https://cesium.com/downloads/cesiumjs/releases/1.102/Build/Cesium/Widgets/widgets.css"
+			rel="stylesheet"
+		/> -->
+		<script src="./utils/helper.js"></script>
+		<style>
+			.panel {
+				width: 369px;
+				height: 369px;
+				position: absolute;
+				left: 0;
+				top: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="cesiumContainer"></div>
+		<div class="panel">
+			<button id="addEntity">添加到entity</button>
+			<button id="addPrimitive">添加到primitive</button>
+			<button id="clear">清除</button>
+		</div>
+		<script>
+			console.log(Cesium, 'cesium');
+			const viewer = new Cesium.Viewer('cesiumContainer', {});
+			window.viewer = viewer;
+			const addEntity = document.getElementById('addEntity');
+			const addPrimitive = document.getElementById('addPrimitive');
+			const clear = document.getElementById('clear');
+			addEntity.onclick = function () {
+				addBillboardToEntity();
+			};
+			addPrimitive.onclick = function () {
+				addBillboardToPrimitive();
+			};
+			clear.onclick = function () {
+				viewer.entities.removeAll();
+				viewer.scene.primitives.removeAll();
+			};
+
+			function addBillboardToEntity() {
+				console.log('aaaaaaa');
+				for (let i = 0; i < 10000; i++) {
+					viewer.entities.add({
+						position: Cesium.Cartesian3.fromDegrees(randomLon(), randomLat()),
+						billboard: {
+							image: './images/billboard.jpeg',
+							width: 36,
+							height: 36,
+						},
+					});
+				}
+			}
+			// 性能更快
+			function addBillboardToPrimitive() {
+				const billboards = viewer.scene.primitives.add(
+					new Cesium.BillboardCollection()
+				);
+				console.log(billboards);
+				for (let i = 0; i < 10000; i++) {
+					billboards.add({
+						// position: new Cesium.Cartesian3(randomLon(), randomLat()),
+						// position: new Cesium.Cartesian3(1.0, 2.0, 3.0),
+						image: './images/billboard.jpeg',
+						show: true,
+						position: Cesium.Cartesian3.fromDegrees(
+							randomLon(),
+							randomLat(),
+							0
+						),
+						width: 36,
+						height: 36,
+					});
+				}
+			}
+		</script>
+	</body>
+</html>
