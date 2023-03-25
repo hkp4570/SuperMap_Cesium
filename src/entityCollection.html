@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>entityCollection</title>
+		<script src="../public/Cesium/Cesium.js"></script>
+		<script src="./utils/helper.js"></script>
+		<link rel="stylesheet" href="../public/Cesium/Widgets/widgets.css" />
+
+		<!-- <script src="https://cesium.com/downloads/cesiumjs/releases/1.102/Build/Cesium/Cesium.js"></script>
+		<link
+			href="https://cesium.com/downloads/cesiumjs/releases/1.102/Build/Cesium/Widgets/widgets.css"
+			rel="stylesheet"
+		/> -->
+		<style>
+			.panel {
+				width: 369px;
+				height: 369px;
+				position: absolute;
+				left: 0;
+				top: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="cesiumContainer"></div>
+		<div class="panel">
+			<button id="changeWidth">改变线的宽度</button>
+		</div>
+		<script>
+			console.log(Cesium, 'cesium');
+			const viewer = new Cesium.Viewer('cesiumContainer', {});
+			window.viewer = viewer;
+
+			const changeWidth = document.getElementById('changeWidth');
+
+			// entity
+			// for (let i = 0; i < 1000; i++) {
+			// 	viewer.entities.add({
+			// 		id: i,
+			// 		polyline: {
+			// 			positions: this.Cesium.Cartesian3.fromDegreesArrayHeights([
+			// 				randomLon(),
+			// 				randomLat(),
+			// 				0,
+			// 				randomLon(),
+			// 				randomLat(),
+			// 				0,
+			// 			]),
+			// 			width: 9,
+			// 			hMax: 50000,
+			// 			material: new Cesium.PolylineDynamicMaterialProperty({
+			// 				color: Cesium.Color.fromCssColorString('rgba(255, 0, 0)'),
+			// 				outlineWidth: 0,
+			// 			}),
+			// 		},
+			// 	});
+			// }
+
+			// entityCollection
+			let myEntityCollection = new Cesium.CustomDataSource(
+				'clickEntityCollection'
+			);
+			viewer.dataSources.add(myEntityCollection);
+			// myEntityCollection.entities.collectionChanged.addEventListener(
+			// 	onChanged
+			// );
+			for (let i = 0; i < 1000; i++) {
+				myEntityCollection.entities.add(
+					new Cesium.Entity({
+						id: i,
+						polyline: {
+							positions: this.Cesium.Cartesian3.fromDegreesArrayHeights([
+								randomLon(),
+								randomLat(),
+								0,
+								randomLon(),
+								randomLat(),
+								0,
+							]),
+							width: 9,
+							hMax: 50000,
+							material: new Cesium.PolylineDynamicMaterialProperty({
+								color: Cesium.Color.fromCssColorString('rgba(255, 0, 0)'),
+								outlineWidth: 0,
+							}),
+						},
+					})
+				);
+			}
+
+			function onChanged(collection, added, removed, changed) {
+				var msg = 'Added ids';
+				for (var i = 0; i < added.length; i++) {
+					msg += '\n' + added[i].id;
+				}
+				console.log(msg);
+			}
+
+			changeWidth.onclick = function () {
+				for (let i = 0; i < 1000; i++) {
+					const entity = myEntityCollection.entities.getById(i);
+					entity.polyline.width = 15;
+				}
+				for (let i = 0; i < 1000; i++) {
+					const entity = viewer.entities.getById(i);
+					entity.polyline.width = 15;
+				}
+			};
+		</script>
+	</body>
+</html>
