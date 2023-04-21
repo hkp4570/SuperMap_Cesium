@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>init</title>
+        <script src="../public/Cesium/Cesium.js"></script>
+        <link rel="stylesheet" href="../public/Cesium/Widgets/widgets.css"/>
+
+        <!-- <script src="https://cesium.com/downloads/cesiumjs/releases/1.102/Build/Cesium/Cesium.js"></script>
+        <link
+            href="https://cesium.com/downloads/cesiumjs/releases/1.102/Build/Cesium/Widgets/widgets.css"
+            rel="stylesheet"
+        /> -->
+    </head>
+    <body>
+        <div id="cesiumContainer"></div>
+        <button id="btn">改变大小</button>
+        <script>
+            const viewer = new Cesium.Viewer('cesiumContainer', {});
+            window.viewer = viewer;
+
+            viewer.camera.changed.addEventListener(function () {
+                const height = viewer.camera.positionCartographic.height;
+                console.log('当前相机高度为：', height);
+            });
+
+            const point = viewer.entities.add({
+                id: 'point',
+                position: Cesium.Cartesian3.fromDegrees(120, 36),
+                point: {
+                    show: true,
+                    color: new Cesium.Color(1, 0, 0),
+                    pixelSize: 100,
+                    outlineColor: new Cesium.Color(0, 0, 0),
+                    outlineWidth: 10,
+                    distanceDisplayCondition: new Cesium.DistanceDisplayCondition(
+                        100000,
+                        100000000
+                    ),
+                    scaleByDistance:  new Cesium.NearFarScalar(100000, 1, 80000000, 0),
+                    // heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
+                    // unmovePosition: true,
+                    // disableDepthTestDistance: Number.POSITIVE_INFINITY,
+                },
+            });
+
+            point.definitionChanged.addEventListener(function (
+                pointGraphics,
+                propertyName,
+                newValue,
+                oldValue
+            ) {
+                console.log(
+                    'point对象的' +
+                    propertyName +
+                    '属性从' +
+                    oldValue +
+                    '更改为' +
+                    newValue
+                );
+            });
+
+            const btn = document.getElementById('btn');
+            btn.onclick = function () {
+                const pointEntity = viewer.entities.getById('point');
+                pointEntity.point.pixelSize = 90;
+            };
+        </script>
+    </body>
+</html>
