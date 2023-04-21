@@ -109,9 +109,6 @@ function installWaveCircleMaterial() {
 		color: Cesium.createPropertyDescriptor('color'),
 		duration: Cesium.createPropertyDescriptor('duration'),
 	});
-	console.log('====================================');
-	console.log(Cesium);
-	console.log('====================================');
 	Cesium.CircleWaveMaterialProperty = CircleWaveMaterialProperty;
 	Material.CircleWaveType = 'CircleWave';
 	Material._materialCache.addMaterial(Material.CircleWaveType, {
