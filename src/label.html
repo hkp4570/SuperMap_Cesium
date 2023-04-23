@@ -1,54 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8"/>
-        <title>label</title>
-        <script src="../public/Cesium/Cesium.js"></script>
-        <link rel="stylesheet" href="../public/Cesium/Widgets/widgets.css"/>
+	<head>
+		<meta charset="UTF-8" />
+		<title>label</title>
+		<script src="../public/Cesium/Cesium.js"></script>
+		<link rel="stylesheet" href="../public/Cesium/Widgets/widgets.css" />
 
-        <!-- <script src="https://cesium.com/downloads/cesiumjs/releases/1.102/Build/Cesium/Cesium.js"></script>
+		<!-- <script src="https://cesium.com/downloads/cesiumjs/releases/1.102/Build/Cesium/Cesium.js"></script>
         <link
             href="https://cesium.com/downloads/cesiumjs/releases/1.102/Build/Cesium/Widgets/widgets.css"
             rel="stylesheet"
         /> -->
-    </head>
-    <body>
-        <div id="cesiumContainer"></div>
-        <script>
-            console.log(Cesium, 'cesium');
-            const viewer = new Cesium.Viewer('cesiumContainer', {});
-            window.viewer = viewer;
+	</head>
+	<body>
+		<div id="cesiumContainer"></div>
+		<script>
+			console.log(Cesium, 'cesium');
+			const viewer = new Cesium.Viewer('cesiumContainer', {});
+			window.viewer = viewer;
 
-            const labelEntity = viewer.entities.add({
-                position: new Cesium.Cartesian3.fromDegrees(140.59777, 40.03883),
-                label: {
-                    show: true,
-                    text: 'Hello, World!',
-                    font: '24px Helvetica',
-                    style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-                    fillColor: Cesium.Color.RED,
-                    outlineColor: Cesium.Color.Black,
-                    outlineWidth: 5,
-                    showBackground: true,
-                    backgroundColor: Cesium.Color.AQUA,
-                    backgroundPadding: new Cesium.Cartesian2(10, 10),
-                    scale: 1.0,
-                    horizontalOrigin: Cesium.HorizontalOrigin.LEFT,
-                    verticalOrigin: Cesium.VerticalOrigin.TOP,
-                    eyeOffset : new Cesium.Cartesian3(0, 0, 0), // 设置偏移量
-                    pixelOffset: new Cesium.Cartesian2(0, 0), // 相对于点的偏移量
-                    translucencyByDistance: new Cesium.NearFarScalar(100000,1,80000000,0), // 透明度变化
-                    pixelOffsetScaleByDistance: new Cesium.NearFarScalar(100000, 1.0, 800000, 2.0), // 偏移量变化
-                    scaleByDistance: new Cesium.NearFarScalar(100000, 1.0, 80000000, 2), // 缩放
-                    heightReference: Cesium.HeightReference.NONE,
-                    distanceDisplayCondition: new Cesium.DistanceDisplayCondition(
-                        100000,
-                        100000000
-                    ), // 显隐
-                }
-            });
-
-
-        </script>
-    </body>
+			const labelEntity = viewer.entities.add({
+				position: new Cesium.Cartesian3.fromDegrees(140.59777, 40.03883),
+				label: {
+					show: true,
+					text: 'Hello, World!',
+					// font: 'normal normal 24px Helvetica',
+					font: 'bold italic 24px Helvetica',
+					style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+					fillColor: Cesium.Color.RED,
+					outlineColor: Cesium.Color.Black,
+					outlineWidth: 5,
+					showBackground: true,
+					backgroundColor: Cesium.Color.AQUA,
+					backgroundPadding: new Cesium.Cartesian2(10, 10),
+					scale: 1.0,
+					horizontalOrigin: Cesium.HorizontalOrigin.LEFT,
+					verticalOrigin: Cesium.VerticalOrigin.TOP,
+					eyeOffset: new Cesium.Cartesian3(0, 0, 0), // 设置偏移量
+					pixelOffset: new Cesium.Cartesian2(0, 0), // 相对于点的偏移量
+					translucencyByDistance: new Cesium.NearFarScalar(
+						100000,
+						1,
+						80000000,
+						0
+					), // 透明度变化
+					pixelOffsetScaleByDistance: new Cesium.NearFarScalar(
+						100000,
+						1.0,
+						800000,
+						2.0
+					), // 偏移量变化
+					scaleByDistance: new Cesium.NearFarScalar(100000, 1.0, 80000000, 2), // 缩放
+					heightReference: Cesium.HeightReference.NONE,
+					distanceDisplayCondition: new Cesium.DistanceDisplayCondition(
+						100000,
+						100000000
+					), // 显隐
+				},
+			});
+		</script>
+	</body>
 </html>
