@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>init</title>
+        <script src="../public/Cesium/Cesium.js"></script>
+        <link rel="stylesheet" href="../public/Cesium/Widgets/widgets.css"/>
+
+        <!-- <script src="https://cesium.com/downloads/cesiumjs/releases/1.102/Build/Cesium/Cesium.js"></script>
+        <link
+            href="https://cesium.com/downloads/cesiumjs/releases/1.102/Build/Cesium/Widgets/widgets.css"
+            rel="stylesheet"
+        /> -->
+    </head>
+    <body>
+        <div id="cesiumContainer"></div>
+        <script>
+            const viewer = new Cesium.Viewer('cesiumContainer', {});
+            window.viewer = viewer;
+
+            // wall不会随视角变化
+            var canvas = document.createElement('canvas');
+            canvas.width = 556;
+            canvas.height = 256;
+            var ctx = canvas.getContext('2d');
+            ctx.font = "50px Arial";//设置或返回文本内容的当前字体属性
+            ctx.fillStyle = "rgb(255,1,1)";//设置或返回用于填充绘画的颜色、渐变或模式
+
+            ctx.fillText("我是一个不会旋转的label", 0, 128);//在画布上绘制“被填充的”文本
+            var pintest = canvas.toDataURL();
+
+            // 创建一个Canvas画布
+            // 将Canvas画布作为Wall纹理传递给Cesium
+            var wall = viewer.entities.add({
+                id: 'wall',
+                wall: {
+                    positions: Cesium.Cartesian3.fromDegreesArray([120, 39.7518312, 122, 39.7502939]),
+                    maximumHeights: [50000, 50000],
+                    material: new Cesium.ImageMaterialProperty({
+                        image: pintest,
+                        transparent: true
+                    })
+                }
+            });
+        </script>
+    </body>
+</html>
