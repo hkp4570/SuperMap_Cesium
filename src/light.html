@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>light</title>
+        <script src="../public/Cesium/Cesium.js"></script>
+        <link rel="stylesheet" href="../public/Cesium/Widgets/widgets.css"/>
+
+        <!--        <script src="https://cesium.com/downloads/cesiumjs/releases/1.102/Build/Cesium/Cesium.js"></script>-->
+        <!--        <link-->
+        <!--            href="https://cesium.com/downloads/cesiumjs/releases/1.102/Build/Cesium/Widgets/widgets.css"-->
+        <!--            rel="stylesheet"-->
+        <!--        />-->
+    </head>
+    <body>
+        <div id="cesiumContainer"></div>
+        <script>
+            const viewer = new Cesium.Viewer('cesiumContainer', {});
+            window.viewer = viewer;
+
+            viewer.scene.globe.enableLighting = true;
+
+            const position1 = new Cesium.Cartesian3.fromDegrees(140, 20, 445);
+            const targetPosition1 = new Cesium.Cartesian3.fromDegrees(140, 20, 430);
+            const dirLightOptions = {
+                targetPosition: targetPosition1,
+                color: new Cesium.Color(0.8, 0.8, 0.8, 1),
+                intensity: 1,
+            };
+            const directionalLight_1 = new Cesium.DirectionalLight(
+                position1,
+                dirLightOptions,
+            );
+            // 添加平行光
+            viewer.scene.addLightSource(directionalLight_1);
+        //     添加一个模型调节平行光亮度可看到效果
+
+            // 设置环境光
+            viewer.scene.lightSource.ambientLightColor = new window.Cesium.Color(
+                1,
+                1,
+                1,
+                1,
+            );
+        </script>
+    </body>
+</html>
