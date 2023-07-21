@@ -42,6 +42,17 @@
                 1,
                 1,
             );
+
+            // 点光源
+            var pointLightPoszuigao1 = new Cesium.Cartesian3.fromDegrees(120, 40, 80.0);
+            var pointLightOptionszuigao1 = {
+                cutoffDistance: 360.0,
+                color: new Cesium.Color(0.15, 0.45, 1.4, 1.0),
+                intensity: 0.12
+            };
+            pointLightzuigao1 = new Cesium.PointLight(pointLightPoszuigao1, pointLightOptionszuigao1);
+            viewer.scene.addLightSource(pointLightzuigao1);
+
         </script>
     </body>
 </html>
