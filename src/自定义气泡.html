@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>自定义气泡</title>
+        <script src="../public/Cesium/Cesium.js"></script>
+        <link rel="stylesheet" href="../public/Cesium/Widgets/widgets.css"/>
+        <script src="./utils/popup.js"></script>
+        <link rel="stylesheet" href="./utils/bubble.css">
+
+        <!-- <script src="https://cesium.com/downloads/cesiumjs/releases/1.102/Build/Cesium/Cesium.js"></script>
+        <link
+            href="https://cesium.com/downloads/cesiumjs/releases/1.102/Build/Cesium/Widgets/widgets.css"
+            rel="stylesheet"
+        /> -->
+    </head>
+    <body>
+        <div id="cesiumContainer"></div>
+        <!-- 自定义气泡 -->
+        <div id="test" class="sm-div-graphic" style="pointer-events: all; display: block;  z-index: 9999;">
+            <div class="divpoint divpoint-theme-29baf1">
+                <div class="divpoint-wrap">
+                    <div class="content">
+                        <img id="popupBg" src="./images/popupBg.png" alt="">
+                        <div class="areaText">
+                            自定义气泡自定义气泡自定义气泡自定义气泡自定义气泡自定义气泡
+                        </div>
+<!--                        <div class="arrow-lt"></div>-->
+<!--                        <div class="b-t"></div>-->
+<!--                        <div class="b-r"></div>-->
+<!--                        <div class="b-b"></div>-->
+<!--                        <div class="b-l"></div>-->
+<!--                        <div class="arrow-rb"></div>-->
+<!--                        <div class="label-wrap">-->
+<!--                            <div class="title">水立方</div>-->
+<!--                            <div class="label-content">-->
+<!--                                <div class="data-li">-->
+<!--                                    <div class="data-label">经度：</div>-->
+<!--                                    <div class="data-value"><span class="label-num">116.3853707</span><span-->
+<!--                                            class="label-unit">°</span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="data-li">-->
+<!--                                    <div class="data-label">纬度：</div>-->
+<!--                                    <div class="data-value"><span class="label-num">39.9922182</span><span-->
+<!--                                            class="label-unit">°</span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="data-li">-->
+<!--                                    <div class="data-label">高度：</div>-->
+<!--                                    <div class="data-value"><span class="label-num">41.199600</span><span-->
+<!--                                            class="label-unit">m</span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+                        </div>
+                    </div>
+<!--                    <div class="b-t-l"></div>-->
+<!--                    <div class="b-b-r"></div>-->
+                </div>
+<!--                <div class="arrow"></div>-->
+            </div>
+        </div>
+
+        <div id="test2" class="sm-div-graphic" style="pointer-events: all; display: block;  z-index: 8920788;">
+            <div class="divpoint divpoint-theme-29baf1">
+                <div class="divpoint-wrap">
+                    <div class="area">
+                        <div class="arrow-lt"></div>
+                        <div class="b-t"></div>
+                        <div class="b-r"></div>
+                        <div class="b-b"></div>
+                        <div class="b-l"></div>
+                        <div class="arrow-rb"></div>
+                        <div class="label-wrap">
+                            <div class="title">文本三</div>
+                            <div class="label-content">
+                                <div class="data-li">
+                                    <div class="data-label">内容一：</div>
+                                    <div class="data-value"><span class="label-num">xxxxx</span><span
+                                            class="label-unit">m³/s</span>
+                                    </div>
+                                </div>
+                                <div class="data-li">
+                                    <div class="data-label">内容二：</div>
+                                    <div class="data-value"><span class="label-num">3.1415926</span>
+                                    </div>
+                                </div>
+                                <div class="data-li">
+                                    <div class="data-label">内容三：</div>
+                                    <div class="data-value"><span class="label-tag data-value-status-1"
+                                                                  alt="中间状态">状态1</span><span class="label-tag data-value-status-0"
+                                                                                                   alt="关闭状态">状态2</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="b-t-l"></div>
+                    <div class="b-b-r"></div>
+                </div>
+                <div class="arrow"></div>
+            </div>
+        </div>
+
+        <script>
+            window.onload = function () {
+                const viewer = new Cesium.Viewer('cesiumContainer', {});
+                window.viewer = viewer;
+                const scene = viewer.scene;
+
+                viewer.scene.open('http://www.supermapol.com/realspace/services/3D-OlympicGreen20200416/rest/realspace');
+
+                //设置相机视角
+                scene.camera.setView({
+                    destination: { x: -2173826.727369, y: 4377906.899545, z: 4098952.6560310004 },
+                    orientation: {
+                        heading: 5.5512975000815095,
+                        pitch: -0.546480271361288,
+                        roll: 6.283185307179586
+                    }
+                });
+
+                //创建气泡
+                //1.固定显示弹框
+                const popup1 = new Popup({
+                    viewer: viewer,
+                    element: document.getElementById('test'),
+                    show: true,
+                    position: { x: -2171602.7892560638, y: 4377472.065779291, z: 4099150.157805687 },
+                    pixelOffset: new Cesium.Cartesian2(0, -233),
+                    scaleByDistance: new Cesium.NearFarScalar(1000, 1, 10000, 0.2),
+                    distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 11000),
+                });
+
+                const popup2 = new Popup({
+                    viewer: viewer,
+                    element: document.getElementById('test2'),
+                    show: true,
+                    position: { x: -2172602.7892560638, y: 4377472.065779291, z: 4099150.157805687 },
+                    pixelOffset: new Cesium.Cartesian2(0, -233),
+                    // scaleByDistance: new Cesium.NearFarScalar(1000, 1, 10000, 0.2),
+                    // translucencyByDistance: new Cesium.NearFarScalar(0, 1, 10000, 0.5),
+                    // distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 11000),
+                });
+                popup1.show();
+                popup2.show();
+
+                const areaText = document.getElementsByClassName('areaText')[0];
+                const popupBg = document.getElementById('popupBg');
+                const content = document.getElementsByClassName('content')[0];
+
+                const width = areaText.offsetWidth + 'px';
+                const height = areaText.offsetHeight + 30 + 'px';
+                popupBg.style.width = width;
+                popupBg.style.height = height;
+
+                content.style.width = width;
+                content.style.height = height;
+            }
+        </script>
+    </body>
+</html>
